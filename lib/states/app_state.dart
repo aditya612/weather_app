@@ -13,10 +13,12 @@ class AppState with ChangeNotifier {
   String error;
   String apiKey = "41e6899871e954619837ef6c31dc8ba1";
 
-  Future loadWeather() async {
-    isLoading = true;
+  getIsLoaded() {
+    isLoading = !isLoading;
     notifyListeners();
+  }
 
+  Future fetchWeather() async {
     LocationData currentLocation;
 
     try {
@@ -44,8 +46,11 @@ class AppState with ChangeNotifier {
         notifyListeners();
       }
     }
+  }
 
-    isLoading = false;
-    notifyListeners();
+  loadWeather() {
+    getIsLoaded();
+    fetchWeather();
+    getIsLoaded();
   }
 }
